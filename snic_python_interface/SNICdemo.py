@@ -84,18 +84,18 @@ def snicdemo():
 	#--------------------------------------------------------------
 	# Set parameters and call the C function
 	#--------------------------------------------------------------
-	numsuperpixels = 4000
+	numsuperpixels = 512
 	compactness = 20.0
 	doRGBtoLAB = True # only works if it is a three channel image
 	# imgname = "/Users/achanta/Pictures/classics/lena.png"
-	imgname = "01_4096.tif"
+	imgname = "snic_python_interface/56_16_norm.tif"
 	labels,numlabels = segment(imgname,numsuperpixels,compactness,doRGBtoLAB)
 	#--------------------------------------------------------------
 	# Display segmentation result
 	#------------------------------------------------------------
 	segimg = drawBoundaries(imgname,labels,numlabels)
 	# Image.fromarray(segimg).show()
-	Image.fromarray(segimg).save("01_4096.png")
+	Image.fromarray(segimg).save("snic_python_interface/56_16_norm.png")
 	return
 
 snicdemo()
