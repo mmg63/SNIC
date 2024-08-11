@@ -205,36 +205,185 @@ void FindSeeds(const int width, const int height, const int numk, int* kx, int* 
 ///
 /// Runs the priority queue base Simple Non-Iterative Clustering (SNIC) algo.
 //===========================================================================
+// void runSNIC(
+//             double**                      chans,
+//             const int                   nchans,
+//              const int					width,
+//              const int					height,
+//              int*                       labels,
+//              int*						outnumk,
+//              const int                  innumk,
+//              const double               compactness,
+//              double**                   out_kx,
+//              double**                   out_ky,
+//              double**                   out_ksize)
+// {
+//     const int w = width;
+//     const int h = height;
+//     const int sz = w*h;
+//     const int dx8[8] = {-1,  0, 1, 0, -1,  1, 1, -1};//for 4 or 8 connectivity
+//     const int dy8[8] = { 0, -1, 0, 1, -1, -1, 1,  1};//for 4 or 8 connectivity
+//     const int dn8[8] = {-1, -w, 1, w, -1-w,1-w,1+w,-1+w};
+    
+//     int* cx = (int*)malloc( sizeof(int)     * (int)(innumk * 1.1 + 10) );
+//     int* cy = (int*)malloc( sizeof(int)     * (int)(innumk * 1.1 + 10) );
+
+//     int numk = 0;//FindSeeds function may modify numk from its initial value
+//     FindSeeds(width,height,innumk,cx,cy,&numk);
+//     //-------------
+//     // Create heap
+//     //-------------
+//     HEAP* heap = (HEAP *)calloc(1, sizeof (HEAP));
+//     HEAP* heap2 = (HEAP *)calloc(1, sizeof (HEAP));
+//     heap->nodes = (NODE*)calloc(sz,sizeof(NODE)); heap->len = 0; heap->size = sz; // needed only for my heap
+
+//     // memset(labels,-1,sz*sizeof(int));
+//     for(int i = 0; i < sz; i++) labels[i] = -1;
+
+//     for(int k = 0; k < numk; k++)
+//     {
+//         push(heap,(cx[k] << 16 | cy[k]),k,0);
+//     }
+    
+//     double** kc = (double**)malloc(sizeof(double*)*nchans);
+//     for(int c = 0; c < nchans; c++)
+//     {
+//         kc[c] = (double*)calloc(numk,sizeof(double));
+//     }
+//     double* kx = (double*)calloc(numk,sizeof(double));
+//     double* ky = (double*)calloc(numk,sizeof(double));
+//     double* ksize = (double*)calloc(numk,sizeof(double));
+//     NODE* pnode = (NODE*)calloc(1,sizeof(NODE));
+
+//     const int CONNECTIVITY = 4;//values can be 4 or 8
+//     const double M = compactness;//10.0;
+//     const double invwt = (M*M*numk)/(double)(sz);
+    
+//     int pixelcount = 0;
+//     int xx = 0, yy = 0, ii = 0;
+//     double cdiff = 0,xdiff = 0,ydiff = 0,colordist = 0,xydist = 0,slicdist = 0;
+//     //-------------
+//     // Run main loop
+//     //-------------
+//     int loopcount = 0;
+//     unsigned int ind;
+//     unsigned int klab;
+//     double dist;
+//     while(pixelcount < sz)
+//     {
+
+//         pop(heap,&ind,&klab,&dist);
+//         const int k = klab;
+//         const int x = ind >> 16 & 0xffff;
+//         const int y = ind & 0xffff;
+//         const int i = y*width+x;
+        
+//         if(labels[i] < 0)
+//         {
+//             labels[i] = k; pixelcount++;
+
+//             for(int c = 0; c < nchans; c++)
+//             {
+//                 kc[c][k] += chans[c][i];
+//             }
+//             kx[k] += x;
+//             ky[k] += y;
+//             ksize[k] += 1.0;
+            
+//             for(int p = 0; p < CONNECTIVITY; p++)
+//             {
+//                 xx = x + dx8[p];
+//                 yy = y + dy8[p];
+//                 if(!(xx < 0 || xx >= w || yy < 0 || yy >= h))
+//                 {
+//                     ii = i + dn8[p];
+//                     if(labels[ii] < 0)//create new nodes
+//                     {
+//                         colordist = 0;
+//                         for(int c = 0; c < nchans; c++)
+//                         {
+//                             cdiff = kc[c][k]-(chans[c][ii]*ksize[k]);
+//                             colordist += (cdiff*cdiff);
+//                         }
+//                         xdiff = kx[k] - xx*ksize[k];
+//                         ydiff = ky[k] - yy*ksize[k];
+//                         xydist      = xdiff*xdiff + ydiff*ydiff;
+
+//                         slicdist    = (colordist + xydist*invwt)/(ksize[k]*ksize[k]);//late normalization by ksize[k], to have only one division operation
+
+//                         push(heap,(xx << 16 | yy),k,slicdist);
+//                     }
+//                 }
+//             }
+//         }
+//         loopcount++;if(loopcount > sz*10){printf("heap1 len: %d heap2 len: %d\n", heap->len, heap2->len); break;}
+//     }
+//     *outnumk = numk;
+//     //---------------------------------------------
+//     // Label the (rarely occuring) unlabelled pixels
+//     //---------------------------------------------
+//     if(labels[0] < 0) labels[0] = 0;
+//     for(int y = 1; y < height; y++)
+//     {
+//         for(int x = 1; x < width; x++)
+//         {
+//             int i = y*width+x;
+//             if(labels[i] < 0)//find an adjacent label
+//             {
+//                 if(labels[i-1] >= 0) labels[i] = labels[i-1];
+//                 else if(labels[i-width] >= 0) labels[i] = labels[i-width];
+//             }//if labels[i] < 0 ends
+//         }
+//     }
+
+//     free(cx);
+//     free(cy);
+//     for(int c = 0; c < nchans; c++)
+//     {
+//         free(kc[c]);
+//     }
+//     free(kc);    
+//     free(kx);
+//     free(ky);
+//     free(ksize);
+//     free(pnode);
+//     if(heap->nodes) free(heap->nodes);
+//     if(heap)free(heap);
+//     if(heap2->nodes) free(heap2->nodes);
+//     if(heap2)free(heap2);
+
+// }
+
 void runSNIC(
-            double**                      chans,
+            double**                    chans,
             const int                   nchans,
-             const int					width,
-             const int					height,
-             int*                       labels,
-             int*						outnumk,
-             const int                  innumk,
-             const double               compactness)
+            const int					width,
+            const int					height,
+            int*                       labels,
+            int*						outnumk,
+            const int                  innumk,
+            const double               compactness,
+            double**                   out_kx,
+            double**                   out_ky,
+            double**                   out_ksize,
+            double***                  out_kc)
 {
     const int w = width;
     const int h = height;
     const int sz = w*h;
-    const int dx8[8] = {-1,  0, 1, 0, -1,  1, 1, -1};//for 4 or 8 connectivity
-    const int dy8[8] = { 0, -1, 0, 1, -1, -1, 1,  1};//for 4 or 8 connectivity
+    const int dx8[8] = {-1,  0, 1, 0, -1,  1, 1, -1};
+    const int dy8[8] = { 0, -1, 0, 1, -1, -1, 1,  1};
     const int dn8[8] = {-1, -w, 1, w, -1-w,1-w,1+w,-1+w};
     
     int* cx = (int*)malloc( sizeof(int)     * (int)(innumk * 1.1 + 10) );
     int* cy = (int*)malloc( sizeof(int)     * (int)(innumk * 1.1 + 10) );
 
-    int numk = 0;//FindSeeds function may modify numk from its initial value
+    int numk = 0;
     FindSeeds(width,height,innumk,cx,cy,&numk);
-    //-------------
-    // Create heap
-    //-------------
-    HEAP* heap = (HEAP *)calloc(1, sizeof (HEAP));
-    HEAP* heap2 = (HEAP *)calloc(1, sizeof (HEAP));
-    heap->nodes = (NODE*)calloc(sz,sizeof(NODE)); heap->len = 0; heap->size = sz; // needed only for my heap
 
-    // memset(labels,-1,sz*sizeof(int));
+    HEAP* heap = (HEAP *)calloc(1, sizeof (HEAP));
+    heap->nodes = (NODE*)calloc(sz,sizeof(NODE)); heap->len = 0; heap->size = sz;
+
     for(int i = 0; i < sz; i++) labels[i] = -1;
 
     for(int k = 0; k < numk; k++)
@@ -242,33 +391,29 @@ void runSNIC(
         push(heap,(cx[k] << 16 | cy[k]),k,0);
     }
     
-    double** kc = (double**)malloc(sizeof(double*)*nchans);
+    *out_kx = (double*)calloc(numk,sizeof(double));
+    *out_ky = (double*)calloc(numk,sizeof(double));
+    *out_ksize = (double*)calloc(numk,sizeof(double));
+    
+    *out_kc = (double**)malloc(sizeof(double*)*nchans);
     for(int c = 0; c < nchans; c++)
     {
-        kc[c] = (double*)calloc(numk,sizeof(double));
+        (*out_kc)[c] = (double*)calloc(numk,sizeof(double));
     }
-    double* kx = (double*)calloc(numk,sizeof(double));
-    double* ky = (double*)calloc(numk,sizeof(double));
-    double* ksize = (double*)calloc(numk,sizeof(double));
-    NODE* pnode = (NODE*)calloc(1,sizeof(NODE));
 
-    const int CONNECTIVITY = 4;//values can be 4 or 8
-    const double M = compactness;//10.0;
+    const int CONNECTIVITY = 4;
+    const double M = compactness;
     const double invwt = (M*M*numk)/(double)(sz);
     
     int pixelcount = 0;
     int xx = 0, yy = 0, ii = 0;
     double cdiff = 0,xdiff = 0,ydiff = 0,colordist = 0,xydist = 0,slicdist = 0;
-    //-------------
-    // Run main loop
-    //-------------
     int loopcount = 0;
     unsigned int ind;
     unsigned int klab;
     double dist;
     while(pixelcount < sz)
     {
-
         pop(heap,&ind,&klab,&dist);
         const int k = klab;
         const int x = ind >> 16 & 0xffff;
@@ -281,11 +426,11 @@ void runSNIC(
 
             for(int c = 0; c < nchans; c++)
             {
-                kc[c][k] += chans[c][i];
+                (*out_kc)[c][k] += chans[c][i];
             }
-            kx[k] += x;
-            ky[k] += y;
-            ksize[k] += 1.0;
+            (*out_kx)[k] += x;
+            (*out_ky)[k] += y;
+            (*out_ksize)[k] += 1.0;
             
             for(int p = 0; p < CONNECTIVITY; p++)
             {
@@ -294,93 +439,125 @@ void runSNIC(
                 if(!(xx < 0 || xx >= w || yy < 0 || yy >= h))
                 {
                     ii = i + dn8[p];
-                    if(labels[ii] < 0)//create new nodes
+                    if(labels[ii] < 0)
                     {
                         colordist = 0;
                         for(int c = 0; c < nchans; c++)
                         {
-                            cdiff = kc[c][k]-(chans[c][ii]*ksize[k]);
+                            cdiff = (*out_kc)[c][k]-(chans[c][ii]*(*out_ksize)[k]);
                             colordist += (cdiff*cdiff);
                         }
-                        xdiff = kx[k] - xx*ksize[k];
-                        ydiff = ky[k] - yy*ksize[k];
+                        xdiff = (*out_kx)[k] - xx*(*out_ksize)[k];
+                        ydiff = (*out_ky)[k] - yy*(*out_ksize)[k];
                         xydist      = xdiff*xdiff + ydiff*ydiff;
 
-                        slicdist    = (colordist + xydist*invwt)/(ksize[k]*ksize[k]);//late normalization by ksize[k], to have only one division operation
+                        slicdist    = (colordist + xydist*invwt)/((*out_ksize)[k]*(*out_ksize)[k]);
 
                         push(heap,(xx << 16 | yy),k,slicdist);
                     }
                 }
             }
         }
-        loopcount++;if(loopcount > sz*10){printf("heap1 len: %d heap2 len: %d\n", heap->len, heap2->len); break;}
+        loopcount++;if(loopcount > sz*10){printf("heap1 len: %d\n", heap->len); break;}
     }
     *outnumk = numk;
-    //---------------------------------------------
-    // Label the (rarely occuring) unlabelled pixels
-    //---------------------------------------------
-    if(labels[0] < 0) labels[0] = 0;
-    for(int y = 1; y < height; y++)
-    {
-        for(int x = 1; x < width; x++)
-        {
-            int i = y*width+x;
-            if(labels[i] < 0)//find an adjacent label
-            {
-                if(labels[i-1] >= 0) labels[i] = labels[i-1];
-                else if(labels[i-width] >= 0) labels[i] = labels[i-width];
-            }//if labels[i] < 0 ends
+
+    // Normalize centroid positions and colors by the number of pixels in each superpixel
+    for (int k = 0; k < numk; k++) {
+        if ((*out_ksize)[k] > 0) {
+            (*out_kx)[k] /= (*out_ksize)[k];
+            (*out_ky)[k] /= (*out_ksize)[k];
+            for (int c = 0; c < nchans; c++) {
+                (*out_kc)[c][k] /= (*out_ksize)[k];
+            }
         }
     }
 
     free(cx);
     free(cy);
-    for(int c = 0; c < nchans; c++)
-    {
-        free(kc[c]);
-    }
-    free(kc);    
-    free(kx);
-    free(ky);
-    free(ksize);
-    free(pnode);
     if(heap->nodes) free(heap->nodes);
     if(heap)free(heap);
-    if(heap2->nodes) free(heap2->nodes);
-    if(heap2)free(heap2);
-
 }
+
 
 //===========================================================================
 /// SNIC_main
 ///
 /// The main function
 //===========================================================================
-void SNIC_main(double* img, const int width, const int height,
-                const int nchannels, const int numSuperpixels, const double compactness,
-                const int doRGBtoLAB, int* klabels, int* numlabels)
-{
-    int sz = width*height;
-    double** channels = (double**)malloc(sizeof(double*)*nchannels);
-    for(int c = 0; c < nchannels; c++)
-    {
-        channels[c] = img + c*sz;
-    }
-    //---------------------------
-    // Perform color conversion
-    //---------------------------
-    if(doRGBtoLAB && nchannels==3)
-    {
-        rgbtolab(channels[0],channels[1],channels[2],sz,channels[0],channels[1],channels[2]);
-    }
-    //---------------------------
-    // Create superpixels
-    //---------------------------
-    int numklabels = 0;
-    runSNIC(channels,nchannels,width,height,klabels,&numklabels,numSuperpixels,compactness);
+// void SNIC_main(double* img, const int width, const int height,
+//                 const int nchannels, const int numSuperpixels, const double compactness,
+//                 const int doRGBtoLAB, int* klabels, int* numlabels)
+// {
+//     int sz = width*height;
+//     double** channels = (double**)malloc(sizeof(double*)*nchannels);
+//     for(int c = 0; c < nchannels; c++)
+//     {
+//         channels[c] = img + c*sz;
+//     }
+//     //---------------------------
+//     // Perform color conversion
+//     //---------------------------
+//     if(doRGBtoLAB && nchannels==3)
+//     {
+//         rgbtolab(channels[0],channels[1],channels[2],sz,channels[0],channels[1],channels[2]);
+//     }
+//     //---------------------------
+//     // Create superpixels
+//     //---------------------------
+//     int numklabels = 0;
+//     runSNIC(channels,nchannels,width,height,klabels,&numklabels,numSuperpixels,compactness);
     
+//     *numlabels = numklabels;
+
+//     free(channels);
+// }
+
+
+void SNIC_main(double* img, const int width, const int height,
+               const int nchannels, const int numSuperpixels, const double compactness,
+               const int doRGBtoLAB, int* klabels, int* numlabels,
+               double* kx_out, double* ky_out, double* ksize_out, double* kc_out)
+{
+    int sz = width * height;
+    double** channels = (double**)malloc(sizeof(double*) * nchannels);
+    for (int c = 0; c < nchannels; c++) {
+        channels[c] = img + c * sz;
+    }
+
+    if (doRGBtoLAB && nchannels == 3) {
+        rgbtolab(channels[0], channels[1], channels[2], sz, channels[0], channels[1], channels[2]);
+    }
+
+    double* kx = NULL;
+    double* ky = NULL;
+    double* ksize = NULL;
+    double** kc = NULL;
+    int numklabels = 0;
+    runSNIC(channels, nchannels, width, height, klabels, &numklabels, numSuperpixels, compactness, &kx, &ky, &ksize, &kc);
+
     *numlabels = numklabels;
 
+    // Copy the centroids and their colors to the output arrays
+    for (int i = 0; i < numklabels; i++) {
+        kx_out[i] = kx[i];
+        ky_out[i] = ky[i];
+        ksize_out[i] = ksize[i];
+        for (int c = 0; c < nchannels; c++) {
+            kc_out[i * nchannels + c] = kc[c][i];  // Flattening the kc array
+        }
+    }
+
+    // Free the allocated memory
     free(channels);
+    free(kx);
+    free(ky);
+    free(ksize);
+    for (int c = 0; c < nchannels; c++) {
+        free(kc[c]);
+    }
+    free(kc);
 }
+
+
 

@@ -1,0 +1,9 @@
+*.pt
+*/inputData/*
+inputData/*
+/inputData
+inputData/
+*/outputs/*
+outputs/*
+/outputs
+outputs/

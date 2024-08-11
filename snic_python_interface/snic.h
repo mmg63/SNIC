@@ -56,13 +56,18 @@ void FindSeeds(const int width, const int height, const int numk, int* kx, int* 
 void runSNIC(
             double**                      chans,
             const int                   nchans,
-             const int                  width,
-             const int                  height,
-             int*                       labels,
-             int*                       outnumk,
-             const int                  innumk,
-             const double               compactness);
+            const int					width,
+            const int					height,
+            int*                       labels,
+            int*						outnumk,
+            const int                  innumk,
+            const double               compactness,
+            double**                   out_kx,
+            double**                   out_ky,
+            double**                   out_ksize,
+            double***                  out_kc);
 void SNIC_main(double* img, const int width, const int height,
-                const int nchannels, const int numSuperpixels, const double compactness,
-                const int doRGBtoLAB, int* klabels, int* numlabels);
+               const int nchannels, const int numSuperpixels, const double compactness,
+               const int doRGBtoLAB, int* klabels, int* numlabels,
+               double* kx_out, double* ky_out, double* ksize_out, double* kc_out);
 

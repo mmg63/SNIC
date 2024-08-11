@@ -16,48 +16,65 @@ from _snic.lib import SNIC_main
 from cffi import FFI
 
 
-def segment(imgname,numsuperpixels,compactness,doRGBtoLAB):
-	#--------------------------------------------------------------
-	# read image and change image shape from (h,w,c) to (c,h,w)
-	#--------------------------------------------------------------
-	img = Image.open(imgname)
-	# img = imread(imgname)
-	img = np.asarray(img)
-	print(img.shape)
+def segment(imgname, numsuperpixels, compactness, doRGBtoLAB):
+    #--------------------------------------------------------------
+    # Read image and change image shape from (h,w,c) to (c,h,w)
+    #--------------------------------------------------------------
+    img = Image.open(imgname)
+    img = np.asarray(img)
+    print(img.shape)
 
-	dims = img.shape
-	h,w,c = dims[0],dims[1],1
-	if len(dims) > 1:
-		c = dims[2]
-		img = img.transpose(2,0,1)
-		print(c, "channels")
+    dims = img.shape
+    h, w, c = dims[0], dims[1], 1
+    if len(dims) > 2:
+        c = dims[2]
+        img = img.transpose(2, 0, 1)
+        print(c, "channels")
 	
-	#--------------------------------------------------------------
-	# Reshape image to a single dimensional vector
-	#--------------------------------------------------------------
-	img = img.reshape(-1).astype(np.double)
-	labels = np.zeros((h,w), dtype = np.int32)
-	numlabels = np.zeros(1,dtype = np.int32)
-	#--------------------------------------------------------------
-	# Prepare the pointers to pass to the C function
-	#--------------------------------------------------------------
-	ffibuilder = FFI()
-	pinp = ffibuilder.cast("double*", ffibuilder.from_buffer(img))
-	plabels = ffibuilder.cast("int*", ffibuilder.from_buffer(labels.reshape(-1)))
-	pnumlabels = ffibuilder.cast("int*", ffibuilder.from_buffer(numlabels))
+    #--------------------------------------------------------------
+    # Reshape image to a single dimensional vector
+    #--------------------------------------------------------------
+    img = img.reshape(-1).astype(np.double)
+    labels = np.zeros((h, w), dtype=np.int32)
+    numlabels = np.zeros(1, dtype=np.int32)
 
-	
-	start = timer()
-	SNIC_main(pinp,w,h,c,numsuperpixels,compactness,doRGBtoLAB,plabels,pnumlabels)
-	end = timer()
+    #--------------------------------------------------------------
+    # Prepare the pointers to pass to the C function
+    #--------------------------------------------------------------
+    ffibuilder = FFI()
+    pinp = ffibuilder.cast("double*", ffibuilder.from_buffer(img))
+    plabels = ffibuilder.cast("int*", ffibuilder.from_buffer(labels.reshape(-1)))
+    pnumlabels = ffibuilder.cast("int*", ffibuilder.from_buffer(numlabels))
 
-	#--------------------------------------------------------------
-	# Collect labels
-	#--------------------------------------------------------------
-	print("number of superpixels: ", numlabels[0])
-	print("time taken in seconds: ", end-start)
+    # Allocate memory for centroids and colors
+    kx = np.zeros(numsuperpixels, dtype=np.double)
+    ky = np.zeros(numsuperpixels, dtype=np.double)
+    ksize = np.zeros(numsuperpixels, dtype=np.double)
+    kc = np.zeros(numsuperpixels * c, dtype=np.double)
 
-	return labels.reshape(h,w),numlabels[0]
+    pkx = ffibuilder.cast("double*", ffibuilder.from_buffer(kx))
+    pky = ffibuilder.cast("double*", ffibuilder.from_buffer(ky))
+    pksize = ffibuilder.cast("double*", ffibuilder.from_buffer(ksize))
+    pkc = ffibuilder.cast("double*", ffibuilder.from_buffer(kc))
+
+    #--------------------------------------------------------------
+    # Call the C function
+    #--------------------------------------------------------------
+    start = timer()
+    SNIC_main(pinp, w, h, c, numsuperpixels, compactness, doRGBtoLAB, plabels, pnumlabels, pkx, pky, pksize, pkc)
+    end = timer()
+
+    #--------------------------------------------------------------
+    # Collect labels and return additional information
+    #--------------------------------------------------------------
+    print("number of superpixels: ", numlabels[0])
+    print("time taken in seconds: ", end - start)
+
+    centroids = np.column_stack((kx, ky))
+    colors = 0 #kc.reshape((numlabels[0], c))
+
+
+    return labels.reshape(h, w), numlabels[0], centroids, colors
 
 
 	# lib.SNICmain.argtypes = [np.ctypeslib.ndpointer(dtype=POINTER(c_double),ndim=2)]+[c_int]*4 +[c_double,c_bool,ctypes.data_as(POINTER(c_int)),ctypes.data_as(POINTER(c_int))]
@@ -84,18 +101,22 @@ def snicdemo():
 	#--------------------------------------------------------------
 	# Set parameters and call the C function
 	#--------------------------------------------------------------
-	numsuperpixels = 512
+	numsuperpixels = 8000
 	compactness = 20.0
 	doRGBtoLAB = True # only works if it is a three channel image
 	# imgname = "/Users/achanta/Pictures/classics/lena.png"
-	imgname = "snic_python_interface/56_16_norm.tif"
-	labels,numlabels = segment(imgname,numsuperpixels,compactness,doRGBtoLAB)
+	imgname = "01_4096.tif"
+	img = f'snic_python_interface/inputData/{imgname}'
+	labels, num_superpixels, centroids, colors = segment(imgname=img, numsuperpixels=numsuperpixels, compactness=compactness, doRGBtoLAB=doRGBtoLAB)
+	print("Centroids:\n", centroids)
+	print("Colors:\n", colors)
 	#--------------------------------------------------------------
 	# Display segmentation result
 	#------------------------------------------------------------
-	segimg = drawBoundaries(imgname,labels,numlabels)
+	segimg = drawBoundaries(img,labels,num_superpixels)
 	# Image.fromarray(segimg).show()
-	Image.fromarray(segimg).save("snic_python_interface/56_16_norm.png")
+	Image.fromarray(segimg).save(f'snic_python_interface/output/snic_{imgname}.png')
+	
 	return
 
 snicdemo()

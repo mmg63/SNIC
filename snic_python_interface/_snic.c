@@ -577,19 +577,19 @@ static void (*_cffi_call_python_org)(struct _cffi_externpy_s *, char *);
 /************************************************************/
 
 static void *_cffi_types[] = {
-/*  0 */ _CFFI_OP(_CFFI_OP_FUNCTION, 53), // void()(HEAP *, unsigned int *, unsigned int *, double *)
-/*  1 */ _CFFI_OP(_CFFI_OP_POINTER, 50), // HEAP *
+/*  0 */ _CFFI_OP(_CFFI_OP_FUNCTION, 61), // void()(HEAP *, unsigned int *, unsigned int *, double *)
+/*  1 */ _CFFI_OP(_CFFI_OP_POINTER, 58), // HEAP *
 /*  2 */ _CFFI_OP(_CFFI_OP_POINTER, 8), // unsigned int *
 /*  3 */ _CFFI_OP(_CFFI_OP_NOOP, 2),
 /*  4 */ _CFFI_OP(_CFFI_OP_POINTER, 10), // double *
 /*  5 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/*  6 */ _CFFI_OP(_CFFI_OP_FUNCTION, 53), // void()(HEAP *, unsigned int, unsigned int, double)
+/*  6 */ _CFFI_OP(_CFFI_OP_FUNCTION, 61), // void()(HEAP *, unsigned int, unsigned int, double)
 /*  7 */ _CFFI_OP(_CFFI_OP_NOOP, 1),
 /*  8 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 8), // unsigned int
 /*  9 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 8),
 /* 10 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 14), // double
 /* 11 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 12 */ _CFFI_OP(_CFFI_OP_FUNCTION, 53), // void()(double * *, int, int, int, int *, int *, int, double)
+/* 12 */ _CFFI_OP(_CFFI_OP_FUNCTION, 61), // void()(double * *, int, int, int, int *, int *, int, double, double * *, double * *, double * *, double * * *)
 /* 13 */ _CFFI_OP(_CFFI_OP_POINTER, 4), // double * *
 /* 14 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7), // int
 /* 15 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
@@ -598,39 +598,47 @@ static void *_cffi_types[] = {
 /* 18 */ _CFFI_OP(_CFFI_OP_NOOP, 17),
 /* 19 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
 /* 20 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 14),
-/* 21 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 22 */ _CFFI_OP(_CFFI_OP_FUNCTION, 53), // void()(double *, double *, double *, double, double *, double *, double *)
-/* 23 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
-/* 24 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
-/* 25 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
-/* 26 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 14),
+/* 21 */ _CFFI_OP(_CFFI_OP_NOOP, 13),
+/* 22 */ _CFFI_OP(_CFFI_OP_NOOP, 13),
+/* 23 */ _CFFI_OP(_CFFI_OP_NOOP, 13),
+/* 24 */ _CFFI_OP(_CFFI_OP_POINTER, 13), // double * * *
+/* 25 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 26 */ _CFFI_OP(_CFFI_OP_FUNCTION, 61), // void()(double *, double *, double *, double, double *, double *, double *)
 /* 27 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
 /* 28 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
 /* 29 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
-/* 30 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 31 */ _CFFI_OP(_CFFI_OP_FUNCTION, 53), // void()(double *, int, int, int, int, double, int, int *, int *)
+/* 30 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 14),
+/* 31 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
 /* 32 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
-/* 33 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 34 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 35 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 36 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 37 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 14),
+/* 33 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
+/* 34 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 35 */ _CFFI_OP(_CFFI_OP_FUNCTION, 61), // void()(double *, int, int, int, int, double, int, int *, int *, double *, double *, double *, double *)
+/* 36 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
+/* 37 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
 /* 38 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 39 */ _CFFI_OP(_CFFI_OP_NOOP, 17),
-/* 40 */ _CFFI_OP(_CFFI_OP_NOOP, 17),
-/* 41 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 42 */ _CFFI_OP(_CFFI_OP_FUNCTION, 53), // void()(int, int, int, int *, int *, int *)
-/* 43 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 44 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 45 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 46 */ _CFFI_OP(_CFFI_OP_NOOP, 17),
-/* 47 */ _CFFI_OP(_CFFI_OP_NOOP, 17),
-/* 48 */ _CFFI_OP(_CFFI_OP_NOOP, 17),
+/* 39 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/* 40 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/* 41 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 14),
+/* 42 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/* 43 */ _CFFI_OP(_CFFI_OP_NOOP, 17),
+/* 44 */ _CFFI_OP(_CFFI_OP_NOOP, 17),
+/* 45 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
+/* 46 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
+/* 47 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
+/* 48 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
 /* 49 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 50 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 0), // HEAP
-/* 51 */ _CFFI_OP(_CFFI_OP_POINTER, 52), // NODE *
-/* 52 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 1), // NODE
-/* 53 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 0), // void
+/* 50 */ _CFFI_OP(_CFFI_OP_FUNCTION, 61), // void()(int, int, int, int *, int *, int *)
+/* 51 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/* 52 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/* 53 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/* 54 */ _CFFI_OP(_CFFI_OP_NOOP, 17),
+/* 55 */ _CFFI_OP(_CFFI_OP_NOOP, 17),
+/* 56 */ _CFFI_OP(_CFFI_OP_NOOP, 17),
+/* 57 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 58 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 0), // HEAP
+/* 59 */ _CFFI_OP(_CFFI_OP_POINTER, 60), // NODE *
+/* 60 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 1), // NODE
+/* 61 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 0), // void
 };
 
 _CFFI_UNUSED_FN
@@ -735,9 +743,9 @@ _cffi_f_FindSeeds(PyObject *self, PyObject *args)
 #  define _cffi_f_FindSeeds _cffi_d_FindSeeds
 #endif
 
-static void _cffi_d_SNIC_main(double * x0, int x1, int x2, int x3, int x4, double x5, int x6, int * x7, int * x8)
+static void _cffi_d_SNIC_main(double * x0, int x1, int x2, int x3, int x4, double x5, int x6, int * x7, int * x8, double * x9, double * x10, double * x11, double * x12)
 {
-  SNIC_main(x0, x1, x2, x3, x4, x5, x6, x7, x8);
+  SNIC_main(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12);
 }
 #ifndef PYPY_VERSION
 static PyObject *
@@ -752,6 +760,10 @@ _cffi_f_SNIC_main(PyObject *self, PyObject *args)
   int x6;
   int * x7;
   int * x8;
+  double * x9;
+  double * x10;
+  double * x11;
+  double * x12;
   Py_ssize_t datasize;
   struct _cffi_freeme_s *large_args_free = NULL;
   PyObject *arg0;
@@ -763,8 +775,12 @@ _cffi_f_SNIC_main(PyObject *self, PyObject *args)
   PyObject *arg6;
   PyObject *arg7;
   PyObject *arg8;
+  PyObject *arg9;
+  PyObject *arg10;
+  PyObject *arg11;
+  PyObject *arg12;
 
-  if (!PyArg_UnpackTuple(args, "SNIC_main", 9, 9, &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
+  if (!PyArg_UnpackTuple(args, "SNIC_main", 13, 13, &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9, &arg10, &arg11, &arg12))
     return NULL;
 
   datasize = _cffi_prepare_pointer_call_argument(
@@ -818,9 +834,45 @@ _cffi_f_SNIC_main(PyObject *self, PyObject *args)
       return NULL;
   }
 
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(4), arg9, (char **)&x9);
+  if (datasize != 0) {
+    x9 = ((size_t)datasize) <= 640 ? (double *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(4), arg9, (char **)&x9,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(4), arg10, (char **)&x10);
+  if (datasize != 0) {
+    x10 = ((size_t)datasize) <= 640 ? (double *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(4), arg10, (char **)&x10,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(4), arg11, (char **)&x11);
+  if (datasize != 0) {
+    x11 = ((size_t)datasize) <= 640 ? (double *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(4), arg11, (char **)&x11,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(4), arg12, (char **)&x12);
+  if (datasize != 0) {
+    x12 = ((size_t)datasize) <= 640 ? (double *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(4), arg12, (char **)&x12,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
   Py_BEGIN_ALLOW_THREADS
   _cffi_restore_errno();
-  { SNIC_main(x0, x1, x2, x3, x4, x5, x6, x7, x8); }
+  { SNIC_main(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12); }
   _cffi_save_errno();
   Py_END_ALLOW_THREADS
 
@@ -1065,9 +1117,9 @@ _cffi_f_rgbtolab(PyObject *self, PyObject *args)
 #  define _cffi_f_rgbtolab _cffi_d_rgbtolab
 #endif
 
-static void _cffi_d_runSNIC(double * * x0, int x1, int x2, int x3, int * x4, int * x5, int x6, double x7)
+static void _cffi_d_runSNIC(double * * x0, int x1, int x2, int x3, int * x4, int * x5, int x6, double x7, double * * x8, double * * x9, double * * x10, double * * * x11)
 {
-  runSNIC(x0, x1, x2, x3, x4, x5, x6, x7);
+  runSNIC(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11);
 }
 #ifndef PYPY_VERSION
 static PyObject *
@@ -1081,6 +1133,10 @@ _cffi_f_runSNIC(PyObject *self, PyObject *args)
   int * x5;
   int x6;
   double x7;
+  double * * x8;
+  double * * x9;
+  double * * x10;
+  double * * * x11;
   Py_ssize_t datasize;
   struct _cffi_freeme_s *large_args_free = NULL;
   PyObject *arg0;
@@ -1091,8 +1147,12 @@ _cffi_f_runSNIC(PyObject *self, PyObject *args)
   PyObject *arg5;
   PyObject *arg6;
   PyObject *arg7;
+  PyObject *arg8;
+  PyObject *arg9;
+  PyObject *arg10;
+  PyObject *arg11;
 
-  if (!PyArg_UnpackTuple(args, "runSNIC", 8, 8, &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7))
+  if (!PyArg_UnpackTuple(args, "runSNIC", 12, 12, &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9, &arg10, &arg11))
     return NULL;
 
   datasize = _cffi_prepare_pointer_call_argument(
@@ -1142,9 +1202,45 @@ _cffi_f_runSNIC(PyObject *self, PyObject *args)
   if (x7 == (double)-1 && PyErr_Occurred())
     return NULL;
 
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(13), arg8, (char **)&x8);
+  if (datasize != 0) {
+    x8 = ((size_t)datasize) <= 640 ? (double * *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(13), arg8, (char **)&x8,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(13), arg9, (char **)&x9);
+  if (datasize != 0) {
+    x9 = ((size_t)datasize) <= 640 ? (double * *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(13), arg9, (char **)&x9,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(13), arg10, (char **)&x10);
+  if (datasize != 0) {
+    x10 = ((size_t)datasize) <= 640 ? (double * *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(13), arg10, (char **)&x10,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(24), arg11, (char **)&x11);
+  if (datasize != 0) {
+    x11 = ((size_t)datasize) <= 640 ? (double * * *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(24), arg11, (char **)&x11,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
   Py_BEGIN_ALLOW_THREADS
   _cffi_restore_errno();
-  { runSNIC(x0, x1, x2, x3, x4, x5, x6, x7); }
+  { runSNIC(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11); }
   _cffi_save_errno();
   Py_END_ALLOW_THREADS
 
@@ -1158,18 +1254,18 @@ _cffi_f_runSNIC(PyObject *self, PyObject *args)
 #endif
 
 static const struct _cffi_global_s _cffi_globals[] = {
-  { "FindSeeds", (void *)_cffi_f_FindSeeds, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 42), (void *)_cffi_d_FindSeeds },
-  { "SNIC_main", (void *)_cffi_f_SNIC_main, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 31), (void *)_cffi_d_SNIC_main },
+  { "FindSeeds", (void *)_cffi_f_FindSeeds, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 50), (void *)_cffi_d_FindSeeds },
+  { "SNIC_main", (void *)_cffi_f_SNIC_main, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 35), (void *)_cffi_d_SNIC_main },
   { "pop", (void *)_cffi_f_pop, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 0), (void *)_cffi_d_pop },
   { "push", (void *)_cffi_f_push, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 6), (void *)_cffi_d_push },
-  { "rgbtolab", (void *)_cffi_f_rgbtolab, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 22), (void *)_cffi_d_rgbtolab },
+  { "rgbtolab", (void *)_cffi_f_rgbtolab, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 26), (void *)_cffi_d_rgbtolab },
   { "runSNIC", (void *)_cffi_f_runSNIC, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 12), (void *)_cffi_d_runSNIC },
 };
 
 static const struct _cffi_field_s _cffi_fields[] = {
   { "nodes", offsetof(HEAP, nodes),
              sizeof(((HEAP *)0)->nodes),
-             _CFFI_OP(_CFFI_OP_NOOP, 51) },
+             _CFFI_OP(_CFFI_OP_NOOP, 59) },
   { "len", offsetof(HEAP, len),
            sizeof(((HEAP *)0)->len),
            _CFFI_OP(_CFFI_OP_NOOP, 14) },
@@ -1188,15 +1284,15 @@ static const struct _cffi_field_s _cffi_fields[] = {
 };
 
 static const struct _cffi_struct_union_s _cffi_struct_unions[] = {
-  { "$HEAP", 50, _CFFI_F_CHECK_FIELDS,
+  { "$HEAP", 58, _CFFI_F_CHECK_FIELDS,
     sizeof(HEAP), offsetof(struct _cffi_align_typedef_HEAP, y), 0, 3 },
-  { "$NODE", 52, _CFFI_F_CHECK_FIELDS,
+  { "$NODE", 60, _CFFI_F_CHECK_FIELDS,
     sizeof(NODE), offsetof(struct _cffi_align_typedef_NODE, y), 3, 3 },
 };
 
 static const struct _cffi_typename_s _cffi_typenames[] = {
-  { "HEAP", 50 },
-  { "NODE", 52 },
+  { "HEAP", 58 },
+  { "NODE", 60 },
 };
 
 static const struct _cffi_type_context_s _cffi_type_context = {
@@ -1211,7 +1307,7 @@ static const struct _cffi_type_context_s _cffi_type_context = {
   0,  /* num_enums */
   2,  /* num_typenames */
   NULL,  /* no includes */
-  54,  /* num_types */
+  62,  /* num_types */
   0,  /* flags */
 };
 
