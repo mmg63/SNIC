@@ -100,12 +100,13 @@ def snicdemo():
     # --------------------------------------------------------------
     # Set parameters and call the C function
     # --------------------------------------------------------------
-    numsuperpixels = 500
+    numsuperpixels = 50000
     compactness = 20.0
     doRGBtoLAB = True  # only works if it is a three channel image
     # imgname = "/Users/achanta/Pictures/classics/lena.png"
-    imgname = "tma.png"
-    img = f'snic_python_interface/inputData/{imgname}'
+    imgname = "01_4096.tif"
+    # img = f'snic_python_interface/inputData/{imgname}'
+    img = f'inputData/{imgname}'
     labels, num_superpixels, centroids, colors = segment(imgname=img, numsuperpixels=numsuperpixels,
                                                          compactness=compactness, doRGBtoLAB=doRGBtoLAB)
     print("Centroids:\n", centroids)
@@ -115,7 +116,8 @@ def snicdemo():
     # ------------------------------------------------------------
     segimg = drawBoundaries(img, labels, num_superpixels)
     # Image.fromarray(segimg).show()
-    Image.fromarray(segimg).save(f'snic_python_interface/output/snic_{imgname}.png')
+    # Image.fromarray(segimg).save(f'snic_python_interface/output/snic_{imgname}1.png')
+    Image.fromarray(segimg).save(f'output/snic_{imgname}50000.png')
 
     return
 
